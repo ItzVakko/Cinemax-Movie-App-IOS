@@ -3,6 +3,7 @@ import React from "react";
 import Avatar from "../../assets/images/avatar.png";
 import HeartIcon from "../../assets/icons/HeartIcon.js";
 import SearchBar from "../components/SearchBar/SearchBar.js";
+import Categories from "../components/Categories/Categories.js";
 
 const Home = () => {
   return (
@@ -10,24 +11,29 @@ const Home = () => {
       className="flex-1 bg-primary-dark"
       style={{ paddingTop: Platform.OS === "ios" ? 60 : 0 }}
     >
-      <View className="flex-row justify-between items-center px-8">
-        <Image source={Avatar} className="w-[40px] h-[40px]" />
+      <View className="flex-row justify-between items-center px-4">
+        <Image source={Avatar} className="w-10 h-10" />
 
         <View className="mr-14">
-          <Text className="text-[16px] text-white">Hello, Smith</Text>
-          <Text className="text-[12px] text-text-grey">
+          <Text className="text-4 text-white font-semibold">Hello, Smith</Text>
+          <Text className="text-3 text-text-grey">
             Let’s stream your favorite movie
           </Text>
         </View>
 
-        <View className="bg-primary-soft w-[32px] h-[32px] rounded-[12px] justify-center items-center">
+        <View className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center">
           <HeartIcon color="#FF7256" />
         </View>
       </View>
 
-      <View className="px-8 mt-8">
+      <View className="px-4 mt-8">
         <SearchBar />
       </View>
+
+      <Text className="text-4 text-white font-semibold mt-6 mb-3.5 px-4">
+        Categories
+      </Text>
+      <Categories />
     </ScrollView>
   );
 };
