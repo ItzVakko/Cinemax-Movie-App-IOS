@@ -1,5 +1,5 @@
 import { Image, ScrollView, Platform, View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "../../assets/images/avatar.png";
 import HeartIcon from "../../assets/icons/HeartIcon.js";
 import SearchBar from "../components/SearchBar/SearchBar.js";
@@ -7,6 +7,13 @@ import Categories from "../components/Categories/Categories.js";
 import Movies from "../components/Movies/Movies.js";
 
 const Home = () => {
+  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [query, setQuery] = useState(null);
+
+  const handleSelectGenre = (genreId) => {
+    setSelectedGenre(genreId);
+  };
+
   return (
     <ScrollView
       className="flex-1 bg-primary-dark"
@@ -28,15 +35,15 @@ const Home = () => {
       </View>
 
       <View className="px-4 mt-8">
-        <SearchBar />
+        <SearchBar value={query} setValue={setQuery} />
       </View>
 
       <Text className="text-4 text-white font-semibold mt-6 mb-3.5 px-4">
         Categories
       </Text>
-      <Categories />
+      <Categories onSelectedGenre={handleSelectGenre} />
 
-      <Movies />
+      <Movies selectedGenre={selectedGenre} query={query} />
     </ScrollView>
   );
 };

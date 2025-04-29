@@ -1,36 +1,37 @@
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import React, { useState } from "react";
 import PillButton from "../Buttons/PillButton";
 
 const data = [
   {
-    id: 1,
+    id: null,
     name: "All",
   },
   {
-    id: 2,
-    name: "Comedy",
+    id: 28,
+    name: "Action",
   },
   {
-    id: 3,
+    id: 12,
+    name: "Adventure",
+  },
+  {
+    id: 16,
     name: "Animation",
   },
   {
-    id: 4,
-    name: "Document",
+    id: 35,
+    name: "Comedy",
   },
   {
-    id: 5,
-    name: "Horror",
-  },
-  {
-    id: 6,
-    name: "Adventure",
+    id: 80,
+    name: "Crime",
   },
 ];
 
-const Categories = () => {
+const Categories = ({ onSelectedGenre }) => {
   const [active, setActive] = useState("All");
+
   return (
     <FlatList
       data={data}
@@ -40,7 +41,10 @@ const Categories = () => {
           <PillButton
             title={item.name}
             active={isActive}
-            onPress={() => setActive(item.name)}
+            onPress={() => {
+              setActive(item.name);
+              onSelectedGenre(item.id);
+            }}
           />
         );
       }}

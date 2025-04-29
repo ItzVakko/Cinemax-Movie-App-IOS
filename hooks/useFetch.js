@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useFetch = (fetchFunction, autoFetch = true) => {
+const useFetch = (fetchFunction, autoFetch = true, selectedGenre, query) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,7 +30,17 @@ const useFetch = (fetchFunction, autoFetch = true) => {
     if (autoFetch) {
       fetchData();
     }
-  }, []);
+  }, [selectedGenre]);
+
+  useEffect(() => {
+    if (query?.trim()) {
+      const timeout = setTimeout(() => {
+        fetchData();
+      }, 500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [query]);
 
   return { data, loading, error, reset, fetchData };
 };
