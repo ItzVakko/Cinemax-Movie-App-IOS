@@ -4,6 +4,7 @@ import Avatar from "../../assets/images/avatar.png";
 import HeartIcon from "../../assets/icons/HeartIcon.js";
 import SearchBar from "../components/SearchBar/SearchBar.js";
 import Categories from "../components/Categories/Categories.js";
+import Movies from "../components/Movies/Movies.js";
 
 const Home = () => {
   return (
@@ -34,6 +35,8 @@ const Home = () => {
         Categories
       </Text>
       <Categories />
+
+      <Movies />
     </ScrollView>
   );
 };
