@@ -29,7 +29,7 @@ const data = [
   },
 ];
 
-const Categories = ({ onSelectedGenre }) => {
+const Categories = ({ onSelectedGenre, query }) => {
   const [active, setActive] = useState("All");
 
   return (
@@ -41,6 +41,7 @@ const Categories = ({ onSelectedGenre }) => {
           <PillButton
             title={item.name}
             active={isActive}
+            query={query}
             onPress={() => {
               setActive(item.name);
               onSelectedGenre(item.id);

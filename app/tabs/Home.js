@@ -23,7 +23,9 @@ const Home = () => {
         <Image source={Avatar} className="w-10 h-10" />
 
         <View className="mr-14">
-          <Text className="text-4 text-white font-semibold">Hello, Smith</Text>
+          <Text className="text-4 text-white font-semibold">
+            Hello, Vako Kobulashvili
+          </Text>
           <Text className="text-3 text-text-grey">
             Let’s stream your favorite movie
           </Text>
@@ -41,7 +43,7 @@ const Home = () => {
       <Text className="text-4 text-white font-semibold mt-6 mb-3.5 px-4">
         Categories
       </Text>
-      <Categories onSelectedGenre={handleSelectGenre} />
+      <Categories onSelectedGenre={handleSelectGenre} query={query} />
 
       <Movies selectedGenre={selectedGenre} query={query} />
     </ScrollView>

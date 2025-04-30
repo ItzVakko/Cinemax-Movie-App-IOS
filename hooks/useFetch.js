@@ -39,6 +39,8 @@ const useFetch = (fetchFunction, autoFetch = true, selectedGenre, query) => {
       }, 500);
 
       return () => clearTimeout(timeout);
+    } else {
+      fetchData();
     }
   }, [query]);
 
