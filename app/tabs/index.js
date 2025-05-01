@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import Search from "./Search";
 import Home from "./Home";
 import HouseIcon from "../../assets/icons/HouseIcon";
