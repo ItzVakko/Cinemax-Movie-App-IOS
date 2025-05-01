@@ -12,10 +12,14 @@ import useFetch from "../../../hooks/useFetch";
 import { fetchMovies } from "../../../services/api";
 import SearchImage from "../../../assets/images/search.png";
 import StarIcon from "../../../assets/icons/StarIcon";
+import { useNavigation } from "@react-navigation/native";
 
-const MovieCard = ({ title, poster_path, vote_average }) => {
+const MovieCard = ({ title, poster_path, vote_average, id, navigation }) => {
   return (
-    <TouchableOpacity className="max-w-[135px] flex-1 rounded-[8px] overflow-hidden bg-primary-soft">
+    <TouchableOpacity
+      className="max-w-[135px] flex-1 rounded-[8px] overflow-hidden bg-primary-soft"
+      onPress={() => navigation.navigate("MovieDetails", { id: id })}
+    >
       <View className="flex-row gap-1 absolute z-10 bg-[rgba(37,40,54,0.7)] px-2 py-1 rounded-lg top-2 right-2">
         <StarIcon color="#FF8700" />
         <Text className="text-secondary-orange text-sm font-semibold">
@@ -47,6 +51,8 @@ const Movies = ({ selectedGenre, query }) => {
     query
   );
 
+  const navigation = useNavigation();
+
   return (
     <View className="px-4 mt-6">
       <View className="flex-row justify-between">
@@ -65,7 +71,7 @@ const Movies = ({ selectedGenre, query }) => {
         data={data}
         scrollEnabled={false}
         renderItem={({ item }) => {
-          return <MovieCard {...item} />;
+          return <MovieCard {...item} navigation={navigation} />;
         }}
         numColumns={3}
         columnWrapperStyle={{ gap: 12 }}

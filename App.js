@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Tabs from "./app/tabs/index";
 import { StatusBar } from "react-native";
+import MovieDetails from "./app/stackScreens/MovieDetails";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name="MainTabs" component={Tabs} />
+          <Stack.Screen name="MovieDetails" component={MovieDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

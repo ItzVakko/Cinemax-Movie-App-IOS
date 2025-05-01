@@ -27,3 +27,20 @@ export const fetchMovies = async (query, genreId) => {
 
   return data.results.slice(0, 15);
 };
+
+export const fetchMovieDetails = async (movieId) => {
+  const endpoint = `/movie/${movieId}`;
+
+  const response = await fetch(`${TMDB_CONFIG.BASE_URL}${endpoint}`, {
+    method: "GET",
+    headers: TMDB_CONFIG.headers,
+  });
+
+  if (!response.ok) {
+    throw new Error("failed to fetch movie details!", response.statusText);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
