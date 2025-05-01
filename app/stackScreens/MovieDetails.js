@@ -21,6 +21,7 @@ import StarIcon from "../../assets/icons/StarIcon";
 import RoundButton from "../components/Buttons/RoundButton";
 import PlayIcon from "../../assets/icons/PlayIcon";
 import ShareIcon from "../../assets/icons/ShareIcon";
+import { ScrollView } from "react-native-gesture-handler";
 
 const MovieDetails = ({ route }) => {
   const { id } = route.params;
@@ -29,7 +30,7 @@ const MovieDetails = ({ route }) => {
   const { data: movie } = useFetch(() => fetchMovieDetails(String(id)));
 
   return (
-    <View className="flex-1 bg-primary-dark">
+    <ScrollView className="flex-1 bg-primary-dark">
       <ImageBackground
         source={{ uri: `https://image.tmdb.org/t/p/w500${movie?.poster_path}` }}
         className="w-full h-fit bg-custom-gradient"
@@ -115,7 +116,51 @@ const MovieDetails = ({ route }) => {
           <RoundButton icon={<ShareIcon color="#12CDD9" />} />
         </View>
       </ImageBackground>
-    </View>
+
+      <Text className="mx-6 mt-6 text-white text-base font-semibold">
+        Story Line
+      </Text>
+
+      <Text className="text-text-whiteGrey text-sm mx-6 mt-2">
+        {movie?.overview}
+      </Text>
+
+      <Text className="mx-6 mt-6 text-white text-base font-semibold">
+        Languages
+      </Text>
+
+      <Text className="text-text-whiteGrey text-sm mx-6 mt-2">
+        {movie?.spoken_languages.map((lang) => lang.english_name).join(" - ")}
+      </Text>
+
+      <View className="flex-row gap-10">
+        <View>
+          <Text className="mx-6 mt-6 text-white text-base font-semibold">
+            Budget
+          </Text>
+          <Text className="text-text-whiteGrey text-sm mx-6 mt-2">
+            ${movie?.budget / 1000000} Million
+          </Text>
+        </View>
+
+        <View>
+          <Text className="mx-6 mt-6 text-white text-base font-semibold">
+            Revenue
+          </Text>
+          <Text className="text-text-whiteGrey text-sm mx-6 mt-2">
+            ${Math.round(movie?.revenue) / 1000000}
+          </Text>
+        </View>
+      </View>
+
+      <Text className="mx-6 mt-6 text-white text-base font-semibold">
+        Production Countries
+      </Text>
+
+      <Text className="text-text-whiteGrey text-sm mx-6 mt-2">
+        {movie?.production_countries.map((country) => country.name).join(", ")}
+      </Text>
+    </ScrollView>
   );
 };
 
