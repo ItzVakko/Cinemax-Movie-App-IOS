@@ -10,6 +10,7 @@ import {
 import React from "react";
 import useFetch from "../../../hooks/useFetch";
 import { fetchMovies } from "../../../services/api";
+import SearchImage from "../../../assets/images/search.png";
 
 const MovieCard = ({ title, poster_path }) => {
   return (
@@ -61,9 +62,28 @@ const Movies = ({ selectedGenre, query }) => {
         columnWrapperStyle={{ gap: 12 }}
         ItemSeparatorComponent={<View className="h-4" />}
         ListHeaderComponent={
-          loading ? <ActivityIndicator className="mt-4" /> : null
+          (loading ? <ActivityIndicator className="my-8" /> : null) ||
+          (error && <Text>Error: {error}</Text>) ||
+          (!loading && !error && query?.trim() && data?.length > 0 && (
+            <Text className="text-text-grey text-base my-4">
+              Search Results for{" "}
+              <Text className="text-text-whiteGrey">{query?.trim()}</Text>
+            </Text>
+          ))
         }
-        List
+        ListEmptyComponent={
+          !loading && !error ? (
+            <View className="items-center gap-2 mt-12">
+              <Image source={SearchImage} />
+              <Text className="text-text-whiteGrey text-base text-center font-semibold tracking-[0.12px] leading-[160%] max-w-[150px]">
+                We Are Sorry, We Can Not Find The Movie :(
+              </Text>
+              <Text className="text-text-grey text-xs text-center max-w-[200px]">
+                Find your movie by typing title or choose categories
+              </Text>
+            </View>
+          ) : null
+        }
       />
     </View>
   );

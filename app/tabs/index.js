@@ -17,6 +17,7 @@ const Tabs = () => {
         tabBarStyle: {
           backgroundColor: "#1F1D2B",
           borderTopWidth: 0,
+          paddingHorizontal: 30,
         },
       }}
     >
