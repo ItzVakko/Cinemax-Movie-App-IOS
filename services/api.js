@@ -25,5 +25,5 @@ export const fetchMovies = async (query, genreId) => {
 
   const data = await response.json();
 
-  return data.results;
+  return data.results.slice(0, 15);
 };
