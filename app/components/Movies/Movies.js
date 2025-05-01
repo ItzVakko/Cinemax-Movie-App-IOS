@@ -11,10 +11,19 @@ import React from "react";
 import useFetch from "../../../hooks/useFetch";
 import { fetchMovies } from "../../../services/api";
 import SearchImage from "../../../assets/images/search.png";
+import StarIcon from "../../../assets/icons/StarIcon";
 
-const MovieCard = ({ title, poster_path }) => {
+const MovieCard = ({ title, poster_path, vote_average }) => {
   return (
     <TouchableOpacity className="max-w-[135px] flex-1 rounded-[8px] overflow-hidden bg-primary-soft">
+      <View className="flex-row gap-1 absolute z-10 bg-[rgba(37,40,54,0.7)] px-2 py-1 rounded-lg top-2 right-2">
+        <StarIcon color="#FF8700" />
+        <Text className="text-secondary-orange text-sm font-semibold">
+          {vote_average % 2 === 0
+            ? vote_average / 2
+            : (vote_average / 2).toFixed(1)}
+        </Text>
+      </View>
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}
         className="w-full h-[150px]"
