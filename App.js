@@ -4,6 +4,8 @@ import Tabs from "./app/tabs/index";
 import { StatusBar } from "react-native";
 import MovieDetails from "./app/stackScreens/MovieDetails";
 import Welcome from "./app/stackScreens/Auth/Welcome";
+import Login from "./app/stackScreens/Auth/Login";
+import Register from "./app/stackScreens/Auth/Register";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +21,8 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="MainTabs" component={Tabs} />
           <Stack.Screen name="MovieDetails" component={MovieDetails} />
         </Stack.Navigator>

@@ -1,8 +1,11 @@
 import { View, Text, Image, Pressable } from "react-native";
 import Logo from "../../../assets/images/logo.png";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
+import { useNavigation } from "@react-navigation/native";
 
 const Welcome = () => {
+  const navigation = useNavigation();
+
   return (
     <View className="bg-[#171725] flex-1 justify-center items-center">
       <Image source={Logo} className="w-[88px] h-[88px]" />
@@ -17,14 +20,16 @@ const Welcome = () => {
         <PrimaryButton title="Sign Up" />
       </View>
 
-      <Pressable className="flex-row gap-2 mt-8">
+      <View className="flex-row gap-2 mt-8">
         <Text className="text-text-grey text-base font-medium">
           Already have an account?
         </Text>
-        <Text className="text-primary-blueAccent text-base font-medium">
-          Login
-        </Text>
-      </Pressable>
+        <Pressable onPress={() => navigation.navigate("Login")}>
+          <Text className="text-primary-blueAccent text-base font-medium">
+            Login
+          </Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
