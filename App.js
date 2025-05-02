@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Tabs from "./app/tabs/index";
 import { StatusBar } from "react-native";
 import MovieDetails from "./app/stackScreens/MovieDetails";
+import Welcome from "./app/stackScreens/Auth/Welcome";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
             headerShown: false,
           }}
         >
+          <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="MainTabs" component={Tabs} />
           <Stack.Screen name="MovieDetails" component={MovieDetails} />
         </Stack.Navigator>
