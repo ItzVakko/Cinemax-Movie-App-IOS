@@ -17,7 +17,10 @@ const Welcome = () => {
       </Text>
 
       <View className="mt-16 w-full px-6">
-        <PrimaryButton title="Sign Up" />
+        <PrimaryButton
+          title="Sign Up"
+          onPress={() => navigation.navigate("Register")}
+        />
       </View>
 
       <View className="flex-row gap-2 mt-8">
