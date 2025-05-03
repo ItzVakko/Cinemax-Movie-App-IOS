@@ -11,6 +11,7 @@ module.exports = {
           blueAccent: "#12CDD9",
         },
         secondary: {
+          green: "#22B07D",
           red: "#FF7256",
           orange: "#FF8700",
         },

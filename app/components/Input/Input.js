@@ -2,7 +2,14 @@ import { View, Text, TextInput, Pressable } from "react-native";
 import HidePasswordIcon from "../../../assets/icons/HidePasswordIcon";
 import { useState } from "react";
 
-const Input = ({ type = "text", name, placeholder }) => {
+const Input = ({
+  type = "text",
+  name,
+  placeholder,
+  value,
+  setValue,
+  onFocus,
+}) => {
   const [isPassHidden, setIsPassHidden] = useState(true);
   return (
     <>
@@ -17,6 +24,9 @@ const Input = ({ type = "text", name, placeholder }) => {
             className="w-full h-[53px] rounded-[24px] border border-primary-soft px-6 text-white"
             placeholder={placeholder}
             placeholderTextColor="#92929D"
+            value={value}
+            onChangeText={(text) => setValue(text)}
+            onFocus={onFocus}
           />
         </View>
       )}
@@ -34,7 +44,10 @@ const Input = ({ type = "text", name, placeholder }) => {
               className="flex-1 h-full text-white"
               placeholder={placeholder}
               placeholderTextColor="#92929D"
+              value={value}
+              onChangeText={(text) => setValue(text)}
               secureTextEntry={isPassHidden}
+              onFocus={onFocus}
             />
             <Pressable onPress={() => setIsPassHidden((prev) => !prev)}>
               <HidePasswordIcon hidden={isPassHidden} color="#92929D" />

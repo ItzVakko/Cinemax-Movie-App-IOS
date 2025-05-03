@@ -3,9 +3,75 @@ import BackArrow from "../../../assets/icons/BackArrow";
 import Input from "../../components/Input/Input";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
+import { useState } from "react";
+import useAuthFetch from "../../../hooks/useAuthFetch";
+import { fetchLogin } from "../../../services/authApi";
+import useAuthStore from "../../../store/authStore";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
   const navigation = useNavigation();
+
+  const login = useAuthStore((state) => state.login);
+
+  const { error, finished, setError, fetchData } = useAuthFetch(
+    fetchLogin,
+    (res) => login(res.user, res.token)
+  );
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    const lowEmail = email.toLowerCase();
+
+    if (!lowEmail) {
+      newErrors.email = "Email is required.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(lowEmail)) {
+        newErrors.email = "A valid email is required.";
+      }
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required.";
+    } else {
+      if (password.length < 6) {
+        newErrors.password = "Password must be at least 6 characters.";
+      } else if (password.length > 12) {
+        newErrors.password = "Password must be up to 12 characters.";
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return false;
+    } else {
+      setErrors({});
+      return true;
+    }
+  };
+
+  const handleLogin = () => {
+    if (validateForm()) {
+      fetchData({ email, password });
+      setEmail("");
+      setPassword("");
+    }
+  };
+
+  const handleFocus = (type) => {
+    setError(null);
+    setErrors((prev) => {
+      const updated = { ...prev };
+      delete updated[type];
+      return updated;
+    });
+  };
+
   return (
     <ScrollView
       className="bg-primary-dark flex-1"
@@ -35,17 +101,51 @@ const Login = () => {
 
       <View>
         <View className="mt-16 gap-8">
-          <Input
-            type="text"
-            name="Email Address"
-            placeholder="Enter your email"
-          />
+          <View>
+            <Input
+              type="text"
+              name="Email Address"
+              placeholder="Enter your email"
+              value={email}
+              setValue={setEmail}
+              onFocus={() => handleFocus("email")}
+            />
 
-          <Input
-            type="password"
-            name="Password"
-            placeholder="Enter your password"
-          />
+            {errors.email && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                {errors.email}
+              </Text>
+            )}
+          </View>
+
+          <View>
+            <Input
+              type="password"
+              name="Password"
+              placeholder="Enter your password"
+              value={password}
+              setValue={setPassword}
+              onFocus={() => handleFocus("password")}
+            />
+
+            {errors.password && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                {errors.password}
+              </Text>
+            )}
+
+            {error && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                Please insert correct email and password.
+              </Text>
+            )}
+
+            {finished && (
+              <Text className="text-secondary-green text-sm mt-2 mx-6">
+                Logged in successfully!
+              </Text>
+            )}
+          </View>
         </View>
 
         <Pressable>
@@ -55,7 +155,7 @@ const Login = () => {
         </Pressable>
 
         <View className="px-4 mt-10">
-          <PrimaryButton title="Login" />
+          <PrimaryButton title="Login" onPress={handleLogin} />
         </View>
       </View>
     </ScrollView>

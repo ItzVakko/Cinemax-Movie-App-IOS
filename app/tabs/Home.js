@@ -5,6 +5,7 @@ import HeartIcon from "../../assets/icons/HeartIcon.js";
 import SearchBar from "../components/SearchBar/SearchBar.js";
 import Categories from "../components/Categories/Categories.js";
 import Movies from "../components/Movies/Movies.js";
+import useAuthStore from "../../store/authStore.js";
 
 const Home = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
@@ -13,6 +14,8 @@ const Home = () => {
   const handleSelectGenre = (genreId) => {
     setSelectedGenre(genreId);
   };
+
+  const user = useAuthStore((state) => state.user);
 
   return (
     <ScrollView
@@ -24,7 +27,7 @@ const Home = () => {
 
         <View className="mr-14">
           <Text className="text-4 text-white font-semibold">
-            Hello, Vako Kobulashvili
+            Hello, {user.fullName}
           </Text>
           <Text className="text-3 text-text-grey">
             Let’s stream your favorite movie

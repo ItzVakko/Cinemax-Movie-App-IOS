@@ -5,10 +5,81 @@ import Input from "../../components/Input/Input";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
 import Checkbox from "expo-checkbox";
+import useAuthStore from "../../../store/authStore";
+import useAuthFetch from "../../../hooks/useAuthFetch";
+import { fetchRegister } from "../../../services/authApi";
 
 const Register = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
   const navigation = useNavigation();
+  const login = useAuthStore((state) => state.login);
+
+  const { error, finished, setError, fetchData } = useAuthFetch(
+    fetchRegister,
+    (res) => login(res.user, res.token)
+  );
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!fullName) {
+      newErrors.fullName = "Full name is required.";
+    } else if (fullName.length < 3) {
+      newErrors.fullName = "Full name must be at least 3 characters.";
+    }
+
+    const lowEmail = email.toLowerCase();
+
+    if (!lowEmail) {
+      newErrors.email = "Email is required.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(lowEmail)) {
+        newErrors.email = "A valid email is required.";
+      }
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required.";
+    } else {
+      if (password.length < 6) {
+        newErrors.password = "Password must be at least 6 characters.";
+      } else if (password.length > 12) {
+        newErrors.password = "Password must be up to 12 characters.";
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return false;
+    } else {
+      setErrors({});
+      return true;
+    }
+  };
+
+  const handleRegister = () => {
+    if (validateForm()) {
+      fetchData({ fullName, email, password });
+      setFullName("");
+      setEmail("");
+      setPassword("");
+    }
+  };
+
+  const handleFocus = (type) => {
+    setError(null);
+    setErrors((prev) => {
+      const updated = { ...prev };
+      delete updated[type];
+      return updated;
+    });
+  };
 
   return (
     <ScrollView
@@ -39,23 +110,65 @@ const Register = () => {
 
       <View>
         <View className="mt-16 gap-8">
-          <Input
-            type="text"
-            name="Full Name"
-            placeholder="Enter your full name"
-          />
+          <View>
+            <Input
+              type="text"
+              name="Full Name"
+              placeholder="Enter your full name"
+              value={fullName}
+              setValue={setFullName}
+              onFocus={() => handleFocus("fullName")}
+            />
+            {errors.fullName && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                {errors.fullName}
+              </Text>
+            )}
+          </View>
 
-          <Input
-            type="text"
-            name="Email Address"
-            placeholder="Enter your email"
-          />
+          <View>
+            <Input
+              type="text"
+              name="Email Address"
+              placeholder="Enter your email"
+              value={email}
+              setValue={setEmail}
+              onFocus={() => handleFocus("email")}
+            />
+            {errors.email && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                {errors.email}
+              </Text>
+            )}
+          </View>
 
-          <Input
-            type="password"
-            name="Password"
-            placeholder="Enter your password"
-          />
+          <View>
+            <Input
+              type="password"
+              name="Password"
+              placeholder="Enter your password"
+              value={password}
+              setValue={setPassword}
+              onFocus={() => handleFocus("password")}
+            />
+            {errors.password && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                {errors.password}
+              </Text>
+            )}
+
+            {error && (
+              <Text className="text-secondary-red text-sm mt-2 mx-6">
+                Account with the same email already exists.
+              </Text>
+            )}
+
+            {finished && (
+              <Text className="text-secondary-green text-sm mt-2 mx-6">
+                Signed Up successfully!
+              </Text>
+            )}
+          </View>
         </View>
 
         <View className="px-4 mt-4 flex-row gap-2">
@@ -79,7 +192,7 @@ const Register = () => {
         </View>
 
         <View className="px-4 mt-10">
-          <PrimaryButton title="Sign Up" />
+          <PrimaryButton title="Sign Up" onPress={handleRegister} />
         </View>
       </View>
     </ScrollView>
