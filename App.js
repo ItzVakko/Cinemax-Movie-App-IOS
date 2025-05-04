@@ -7,11 +7,19 @@ import Welcome from "./app/stackScreens/Auth/Welcome";
 import Login from "./app/stackScreens/Auth/Login";
 import Register from "./app/stackScreens/Auth/Register";
 import useAuthStore from "./store/authStore";
+import { useEffect } from "react";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const loadSavedAuthData = useAuthStore((state) => state.loadStoredAuth);
+
+  useEffect(() => {
+    const initAuth = async () => await loadSavedAuthData();
+    initAuth();
+  }, []);
+
   return (
     <>
       <StatusBar barStyle="light-content" />
