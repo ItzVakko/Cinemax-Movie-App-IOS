@@ -10,6 +10,7 @@ const useAuthStore = create((set) => ({
     await saveAuthData(token, userData);
     set({ isLoggedIn: true, user: userData, token });
   },
+
   logout: async () => {
     await clearAuthData();
     set({ isLoggedIn: false, user: null, token: null });
@@ -17,8 +18,11 @@ const useAuthStore = create((set) => ({
 
   loadStoredAuth: async () => {
     const { token, user } = await getAuthData();
+
     if (token && user) {
-      set({ isLoggedIn: true, token, user });
+      set({ isLoggedIn: true, user, token });
+    } else {
+      set({ isLoggedIn: false, user: null, token: null });
     }
   },
 }));

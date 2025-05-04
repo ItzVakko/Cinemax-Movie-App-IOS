@@ -19,7 +19,7 @@ export const getAuthData = async () => {
     };
   } catch (err) {
     console.log("Error getting auth data: ", err);
-    return null;
+    return { token: null, user: null };
   }
 };
 
