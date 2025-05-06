@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Text } from "react-native";
-import Search from "./Search";
 import Home from "./Home";
 import HouseIcon from "../../assets/icons/HouseIcon";
 import HeartIcon from "../../assets/icons/HeartIcon";
 import PersonIcon from "../../assets/icons/PersonIcon";
+import Wishlist from "./Wishlist";
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +38,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Favourite"
-        component={Search}
+        component={Wishlist}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -52,15 +52,15 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="Profile"
+        component={Wishlist}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
               <TabIcon
                 focused={focused}
                 icon={<PersonIcon color={focused ? "#12CDD9" : "#92929D"} />}
-                label="Search"
+                label="Profile"
               />
             </>
           ),
