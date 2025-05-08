@@ -4,9 +4,9 @@ import Input from "../../components/Input/Input";
 import { useNavigation } from "@react-navigation/native";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
-import useAuthFetch from "../../../hooks/useAuthFetch";
 import { fetchLogin } from "../../../services/authApi";
 import useAuthStore from "../../../store/authStore";
+import useFetch from "../../../hooks/useFetch";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,10 +17,10 @@ const Login = () => {
 
   const login = useAuthStore((state) => state.login);
 
-  const { error, finished, setError, fetchData } = useAuthFetch(
-    fetchLogin,
-    (res) => login(res.user, res.token)
-  );
+  const { error, setError, finished, fetchData } = useFetch({
+    fetchFunction: fetchLogin,
+    onSuccess: (res) => login(res.user, res.token),
+  });
 
   const validateForm = () => {
     const newErrors = {};

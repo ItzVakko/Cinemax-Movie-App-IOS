@@ -6,8 +6,8 @@ import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import useAuthStore from "../../../store/authStore";
-import useAuthFetch from "../../../hooks/useAuthFetch";
 import { fetchRegister } from "../../../services/authApi";
+import useFetch from "../../../hooks/useFetch";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
@@ -19,10 +19,10 @@ const Register = () => {
   const navigation = useNavigation();
   const login = useAuthStore((state) => state.login);
 
-  const { error, finished, setError, fetchData } = useAuthFetch(
-    fetchRegister,
-    (res) => login(res.user, res.token)
-  );
+  const { error, setError, finished, fetchData } = useFetch({
+    fetchFunction: fetchRegister,
+    onSuccess: (res) => login(res.user, res.token),
+  });
 
   const validateForm = () => {
     const newErrors = {};

@@ -1,24 +1,50 @@
 import { useEffect, useState } from "react";
 
-const useFetch = (fetchFunction, autoFetch = true, selectedGenre, query) => {
+const useFetch = ({
+  fetchFunction,
+  autoFetch,
+  params = {},
+  headers = {},
+  onSuccess,
+  onError,
+  dependencies = [],
+  debounce = 0,
+} = {}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [finished, setFinished] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = async (userData) => {
+    setFinished(false);
+
     try {
       setLoading(true);
       setError(null);
 
-      const result = await fetchFunction();
+      const result = await fetchFunction(userData || params, headers);
       setData(result);
+      setFinished(true);
+
+      onSuccess && onSuccess(result);
     } catch (err) {
-      setLoading(true);
-      setError(err);
+      setError(err.message || "Something went wrong");
+
+      if (onError) onError(err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (autoFetch) {
+      if (debounce > 0) {
+        const timeout = setTimeout(() => fetchData(), debounce);
+        return () => clearTimeout(timeout);
+      }
+      fetchData();
+    }
+  }, dependencies);
 
   const reset = () => {
     setData(null);
@@ -26,25 +52,7 @@ const useFetch = (fetchFunction, autoFetch = true, selectedGenre, query) => {
     setError(null);
   };
 
-  useEffect(() => {
-    if (autoFetch) {
-      fetchData();
-    }
-  }, [selectedGenre]);
-
-  useEffect(() => {
-    if (query?.trim()) {
-      const timeout = setTimeout(() => {
-        fetchData();
-      }, 500);
-
-      return () => clearTimeout(timeout);
-    } else {
-      fetchData();
-    }
-  }, [query]);
-
-  return { data, loading, error, reset, fetchData };
+  return { data, loading, error, setError, finished, fetchData, reset };
 };
 
 export default useFetch;

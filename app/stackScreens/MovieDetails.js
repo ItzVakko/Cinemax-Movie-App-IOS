@@ -7,9 +7,9 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { fetchMovieDetails } from "../../services/api";
+import { fetchMovieDetails } from "../../services/movieApi";
 import BackArrow from "../../assets/icons/BackArrow";
 import HeartIcon from "../../assets/icons/HeartIcon";
 import { useNavigation } from "@react-navigation/native";
@@ -27,7 +27,13 @@ const MovieDetails = ({ route }) => {
   const { id } = route.params;
   const navigation = useNavigation();
 
-  const { data: movie } = useFetch(() => fetchMovieDetails(String(id)));
+  const { data: movie, fetchData } = useFetch({
+    fetchFunction: () => fetchMovieDetails(String(id)),
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ScrollView className="flex-1 bg-primary-dark">

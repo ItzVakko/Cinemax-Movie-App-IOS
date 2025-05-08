@@ -7,9 +7,9 @@ import {
   View,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import useFetch from "../../../hooks/useFetch";
-import { fetchMovies } from "../../../services/api";
+import { fetchMovies } from "../../../services/movieApi";
 import SearchImage from "../../../assets/images/search.png";
 import StarIcon from "../../../assets/icons/StarIcon";
 import { useNavigation } from "@react-navigation/native";
@@ -44,12 +44,27 @@ const MovieCard = ({ title, poster_path, vote_average, id, navigation }) => {
 };
 
 const Movies = ({ selectedGenre, query }) => {
-  const { data, loading, error, reset } = useFetch(
-    () => fetchMovies(query, selectedGenre),
-    true,
-    selectedGenre,
-    query
-  );
+  const { data, loading, error, fetchData } = useFetch({
+    fetchFunction: () => fetchMovies(query, selectedGenre),
+  });
+
+  useEffect(() => {
+    if (selectedGenre !== undefined) {
+      fetchData();
+    }
+  }, [selectedGenre]);
+
+  useEffect(() => {
+    if (query?.trim()) {
+      const timeout = setTimeout(() => {
+        fetchData();
+      }, 500);
+
+      return () => clearTimeout(timeout);
+    } else {
+      fetchData();
+    }
+  }, [query]);
 
   const navigation = useNavigation();
 
