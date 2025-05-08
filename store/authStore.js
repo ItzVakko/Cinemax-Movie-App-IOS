@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { clearAuthData, getAuthData, saveAuthData } from "../utils/storage";
+import { fetchUserData } from "../services/userApi";
 
 const useAuthStore = create((set) => ({
   isLoggedIn: false,
@@ -9,6 +10,13 @@ const useAuthStore = create((set) => ({
   login: async (userData, token) => {
     await saveAuthData(token, userData);
     set({ isLoggedIn: true, user: userData, token });
+
+    try {
+      const userAdditionalData = await fetchUserData(token);
+      set({ user: { ...userData, ...userAdditionalData } });
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
   },
 
   logout: async () => {

@@ -17,6 +17,8 @@ const Home = () => {
 
   const user = useAuthStore((state) => state.user);
 
+  console.log(user);
+
   return (
     <ScrollView
       className="flex-1 bg-primary-dark"
