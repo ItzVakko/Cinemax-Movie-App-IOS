@@ -8,14 +8,17 @@ const useAuthStore = create((set) => ({
   token: null,
 
   login: async (userData, token) => {
-    await saveAuthData(token, userData);
-    set({ isLoggedIn: true, user: userData, token });
-
     try {
       const userAdditionalData = await fetchUserData(token);
-      set({ user: { ...userData, ...userAdditionalData } });
+      const mergedUserData = { ...userData, ...userAdditionalData };
+
+      await saveAuthData(token, mergedUserData);
+
+      set({ isLoggedIn: true, user: mergedUserData, token });
     } catch (error) {
       console.error("Failed to fetch user data:", error);
+      await saveAuthData(token, userData);
+      set({ isLoggedIn: true, user: userData, token });
     }
   },
 
