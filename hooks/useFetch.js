@@ -15,14 +15,14 @@ const useFetch = ({
   const [error, setError] = useState(null);
   const [finished, setFinished] = useState(false);
 
-  const fetchData = async (userData) => {
+  const fetchData = async (fetchData) => {
     setFinished(false);
 
     try {
       setLoading(true);
       setError(null);
 
-      const result = await fetchFunction(userData || params, headers);
+      const result = await fetchFunction(fetchData || params, headers);
       setData(result);
       setFinished(true);
 

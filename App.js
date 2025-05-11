@@ -14,6 +14,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const loadSavedAuthData = useAuthStore((state) => state.loadStoredAuth);
+  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
     const initAuth = async () => await loadSavedAuthData();

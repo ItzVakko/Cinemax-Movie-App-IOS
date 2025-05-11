@@ -29,7 +29,7 @@ const Home = () => {
 
         <View className="mr-14">
           <Text className="text-4 text-white font-semibold">
-            Hello, {user.fullName}
+            Hello, {user?.fullName}
           </Text>
           <Text className="text-3 text-text-grey">
             Let’s stream your favorite movie

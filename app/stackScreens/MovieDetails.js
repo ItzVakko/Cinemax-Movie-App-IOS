@@ -22,18 +22,36 @@ import RoundButton from "../components/Buttons/RoundButton";
 import PlayIcon from "../../assets/icons/PlayIcon";
 import ShareIcon from "../../assets/icons/ShareIcon";
 import { ScrollView } from "react-native-gesture-handler";
+import { fetchAddWishlist } from "../../services/wishlistApi";
+import useAuthStore from "../../store/authStore";
 
 const MovieDetails = ({ route }) => {
   const { id } = route.params;
   const navigation = useNavigation();
 
+  const token = useAuthStore((state) => state.token);
+
   const { data: movie, fetchData } = useFetch({
     fetchFunction: () => fetchMovieDetails(String(id)),
+  });
+
+  const { fetchData: addToWishlist } = useFetch({
+    fetchFunction: (movieId) => fetchAddWishlist(movieId, token),
   });
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleAddToWishlist = async () => {
+    try {
+      console.log("id:", id);
+      await addToWishlist(id);
+      console.log("Added to wishlist!");
+    } catch (error) {
+      console.error("Failed to add to wishlist:", error);
+    }
+  };
 
   return (
     <ScrollView className="flex-1 bg-primary-dark">
@@ -70,9 +88,12 @@ const MovieDetails = ({ route }) => {
             {movie?.title}
           </Text>
 
-          <View className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center">
+          <Pressable
+            className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center"
+            onPress={handleAddToWishlist}
+          >
             <HeartIcon color="#FF7256" />
-          </View>
+          </Pressable>
         </View>
 
         <Image
