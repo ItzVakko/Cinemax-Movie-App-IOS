@@ -8,8 +8,6 @@ const WISHLIST_CONFIG = {
 export const fetchAddWishlist = async (movieId, token) => {
   const endpoint = "/add";
 
-  console.log(JSON.stringify(movieId));
-
   const response = await fetch(`${WISHLIST_CONFIG.BASE_URL}${endpoint}`, {
     method: "POST",
     headers: { ...WISHLIST_CONFIG.headers, Authorization: `Bearer ${token}` },
@@ -24,12 +22,11 @@ export const fetchAddWishlist = async (movieId, token) => {
 };
 
 export const fetchRemoveWishlist = async (movieId, token) => {
-  const endpoint = "/remove";
+  const endpoint = `/remove/${movieId}`;
 
   const response = await fetch(`${WISHLIST_CONFIG.BASE_URL}${endpoint}`, {
-    method: "POST",
+    method: "DELETE",
     headers: { ...WISHLIST_CONFIG.headers, Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ movieId }),
   });
 
   if (!response.ok) throw new Error("failed to remove wishlist");

@@ -36,6 +36,23 @@ const useAuthStore = create((set) => ({
       set({ isLoggedIn: false, user: null, token: null });
     }
   },
+
+  dataUpdate: async () => {
+    const { token } = await getAuthData();
+
+    if (token) {
+      try {
+        const userAdditionalData = await fetchUserData(token);
+        const currentUser = useAuthStore.getState().user || {};
+        const mergedUserData = { ...currentUser, ...userAdditionalData };
+
+        await saveAuthData(token, mergedUserData);
+        set({ user: mergedUserData });
+      } catch (error) {
+        console.error("Failed to renew user data:", error);
+      }
+    }
+  },
 }));
 
 export default useAuthStore;

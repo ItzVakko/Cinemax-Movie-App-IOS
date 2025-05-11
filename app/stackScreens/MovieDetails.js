@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { fetchMovieDetails } from "../../services/movieApi";
 import BackArrow from "../../assets/icons/BackArrow";
@@ -22,14 +22,20 @@ import RoundButton from "../components/Buttons/RoundButton";
 import PlayIcon from "../../assets/icons/PlayIcon";
 import ShareIcon from "../../assets/icons/ShareIcon";
 import { ScrollView } from "react-native-gesture-handler";
-import { fetchAddWishlist } from "../../services/wishlistApi";
+import {
+  fetchAddWishlist,
+  fetchRemoveWishlist,
+} from "../../services/wishlistApi";
 import useAuthStore from "../../store/authStore";
 
 const MovieDetails = ({ route }) => {
+  const [isWishlistActive, setIsWishlistActive] = useState(false);
+
   const { id } = route.params;
   const navigation = useNavigation();
 
   const token = useAuthStore((state) => state.token);
+  const dataUpdate = useAuthStore((state) => state.dataUpdate);
 
   const { data: movie, fetchData } = useFetch({
     fetchFunction: () => fetchMovieDetails(String(id)),
@@ -39,17 +45,42 @@ const MovieDetails = ({ route }) => {
     fetchFunction: (movieId) => fetchAddWishlist(movieId, token),
   });
 
+  const { fetchData: removeFromWishlist } = useFetch({
+    fetchFunction: (movieId) => fetchRemoveWishlist(movieId, token),
+  });
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (movie) {
+      const checkWishlist = () => {
+        const userWishlist = useAuthStore.getState().user?.wishlist || [];
+        setIsWishlistActive(userWishlist.includes(JSON.stringify(movie.id)));
+      };
+
+      checkWishlist();
+    }
+  }, [movie]);
+
   const handleAddToWishlist = async () => {
     try {
-      console.log("id:", id);
+      setIsWishlistActive(true);
       await addToWishlist(id);
-      console.log("Added to wishlist!");
+      dataUpdate();
     } catch (error) {
       console.error("Failed to add to wishlist:", error);
+    }
+  };
+
+  const handleRemoveFromWishlist = async () => {
+    try {
+      setIsWishlistActive(false);
+      await removeFromWishlist(id);
+      dataUpdate();
+    } catch (error) {
+      console.error("Failed to remove from wishlist:", error);
     }
   };
 
@@ -90,9 +121,11 @@ const MovieDetails = ({ route }) => {
 
           <Pressable
             className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center"
-            onPress={handleAddToWishlist}
+            onPress={
+              isWishlistActive ? handleRemoveFromWishlist : handleAddToWishlist
+            }
           >
-            <HeartIcon color="#FF7256" />
+            <HeartIcon color={isWishlistActive ? "#FF7256" : "grey"} />
           </Pressable>
         </View>
 
