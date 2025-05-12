@@ -110,7 +110,7 @@ const MovieDetails = ({ route }) => {
         <View className="px-4 flex-row justify-between items-center">
           <Pressable
             className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center"
-            onPress={() => navigation.navigate("MainTabs")}
+            onPress={() => navigation.goBack()}
           >
             <BackArrow color="white" />
           </Pressable>

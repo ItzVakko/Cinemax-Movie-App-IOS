@@ -3,7 +3,7 @@ import BackArrow from "../../assets/icons/BackArrow";
 import { useNavigation } from "@react-navigation/native";
 import WishlistCard from "../components/WishlistCard/WishlistCard";
 import useFetch from "../../hooks/useFetch";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useAuthStore from "../../store/authStore";
 import { fetchWishlistMovies } from "../../services/movieApi";
 
@@ -17,10 +17,9 @@ const Wishlist = () => {
   });
 
   useEffect(() => {
-    if (user?.wishlist?.length > 0) {
-      fetchData(user.wishlist);
-    }
+    fetchData(user.wishlist);
   }, [user.wishlist]);
+
   return (
     <View
       className="flex-1 bg-primary-dark px-4"
