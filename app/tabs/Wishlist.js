@@ -40,9 +40,11 @@ const Wishlist = () => {
       </View>
 
       <FlatList
+        className="mt-8"
         data={data}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <WishlistCard {...item} />}
+        ItemSeparatorComponent={() => <View className="h-4" />}
       />
     </View>
   );

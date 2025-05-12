@@ -4,13 +4,13 @@ import HeartIcon from "../../../assets/icons/HeartIcon";
 
 const WishlistCard = ({ poster_path, genres, title, vote_average }) => {
   return (
-    <TouchableOpacity className="w-full px-4 py-3 bg-primary-soft rounded-[16px] flex-row gap-4 justify-between">
+    <TouchableOpacity className="w-full px-4 py-3 bg-primary-soft rounded-[16px] flex-row gap-4">
       <Image
         className="w-[120px] h-[80px] rounded-[8px]"
         source={{ uri: `https://image.tmdb.org/t/p/w500${poster_path}` }}
       />
 
-      <View className="justify-between">
+      <View className="justify-between flex-1">
         <Text className="text-text-whiteGrey font-medium">
           {genres[0].name}
         </Text>
@@ -18,7 +18,7 @@ const WishlistCard = ({ poster_path, genres, title, vote_average }) => {
         <Text className="text-white text-base font-semibold">{title}</Text>
 
         <View className="flex-row items-center justify-between">
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-4">
             <Text className="text-text-grey font-medium">Movie</Text>
 
             <View className="flex-row items-center gap-1">
