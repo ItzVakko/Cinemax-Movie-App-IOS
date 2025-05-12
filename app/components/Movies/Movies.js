@@ -38,7 +38,7 @@ const MovieCard = ({ title, poster_path, vote_average, id, navigation }) => {
       >
         {title}
       </Text>
-      <Text className="text-text-grey text-[10px] mx-2 mt-1 mb-2">Action</Text>
+      <Text className="text-text-grey text-[10px] mx-2 mt-1 mb-2">Movie</Text>
     </TouchableOpacity>
   );
 };
