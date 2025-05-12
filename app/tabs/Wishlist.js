@@ -1,11 +1,26 @@
-import { View, Text, Platform, Pressable } from "react-native";
+import { View, Text, Platform, Pressable, FlatList } from "react-native";
 import BackArrow from "../../assets/icons/BackArrow";
-import HeartIcon from "../../assets/icons/HeartIcon";
 import { useNavigation } from "@react-navigation/native";
 import WishlistCard from "../components/WishlistCard/WishlistCard";
+import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
+import useAuthStore from "../../store/authStore";
+import { fetchWishlistMovies } from "../../services/movieApi";
 
 const Wishlist = () => {
   const navigation = useNavigation();
+
+  const user = useAuthStore((state) => state.user);
+
+  const { data, fetchData } = useFetch({
+    fetchFunction: () => fetchWishlistMovies(user.wishlist),
+  });
+
+  useEffect(() => {
+    if (user?.wishlist?.length > 0) {
+      fetchData(user.wishlist);
+    }
+  }, [user.wishlist]);
   return (
     <View
       className="flex-1 bg-primary-dark px-4"
@@ -24,7 +39,11 @@ const Wishlist = () => {
         <View className="w-8 h-8" />
       </View>
 
-      <WishlistCard />
+      <FlatList
+        data={data}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <WishlistCard {...item} />}
+      />
     </View>
   );
 };

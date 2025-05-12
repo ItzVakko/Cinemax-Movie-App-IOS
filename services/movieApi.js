@@ -44,3 +44,21 @@ export const fetchMovieDetails = async (movieId) => {
 
   return data;
 };
+
+export const fetchWishlistMovies = async (movieIds) => {
+  const requests = movieIds.map((movieId) => {
+    const endpoint = `/movie/${movieId}`;
+
+    return fetch(`${TMDB_CONFIG.BASE_URL}${endpoint}`, {
+      method: "GET",
+      headers: TMDB_CONFIG.headers,
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch movie with ID: ${movieId}`);
+      }
+      return response.json();
+    });
+  });
+
+  return Promise.all(requests);
+};
