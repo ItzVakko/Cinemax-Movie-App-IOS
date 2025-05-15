@@ -27,7 +27,7 @@ const Wishlist = () => {
 
   useEffect(() => {
     fetchData(user.wishlist);
-  }, [user.wishlist]);
+  }, [user?.wishlist]);
 
   return (
     <View
