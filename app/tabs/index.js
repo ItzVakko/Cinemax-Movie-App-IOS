@@ -5,6 +5,7 @@ import HouseIcon from "../../assets/icons/HouseIcon";
 import HeartIcon from "../../assets/icons/HeartIcon";
 import PersonIcon from "../../assets/icons/PersonIcon";
 import Wishlist from "./Wishlist";
+import Profile from "./Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={Wishlist}
+        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
