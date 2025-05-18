@@ -6,6 +6,7 @@ import {
   Image,
   Pressable,
   FlatList,
+  Alert,
 } from "react-native";
 import AvatarImage from "../../assets/images/avatar.png";
 import PersonIcon from "../../assets/icons/PersonIcon";
@@ -83,7 +84,9 @@ const sections = [
 ];
 
 const Profile = () => {
+  const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+
   return (
     <ScrollView
       className="flex-1 bg-primary-dark px-4"
@@ -135,7 +138,21 @@ const Profile = () => {
       ))}
 
       <View className="mt-10">
-        <SecondaryButton title="Log Out" onPress={() => logout()} />
+        <SecondaryButton
+          title="Log Out"
+          onPress={() =>
+            Alert.alert("Log out of Cinemax as", `${user.email}?`, [
+              {
+                text: "Cancel",
+                onPress: () => console.log("logout cancelled!"),
+              },
+              {
+                text: "Ok",
+                onPress: () => logout(),
+              },
+            ])
+          }
+        />
       </View>
     </ScrollView>
   );

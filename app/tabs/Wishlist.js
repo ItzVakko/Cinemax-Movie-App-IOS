@@ -26,7 +26,7 @@ const Wishlist = () => {
   });
 
   useEffect(() => {
-    fetchData(user.wishlist);
+    fetchData(user?.wishlist);
   }, [user?.wishlist]);
 
   return (
