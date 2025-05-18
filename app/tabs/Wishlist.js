@@ -34,18 +34,9 @@ const Wishlist = () => {
       className="flex-1 bg-primary-dark px-4"
       style={{ paddingTop: Platform.OS === "ios" ? 60 : 0 }}
     >
-      <View className="flex-row justify-between items-center">
-        <Pressable
-          className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center"
-          onPress={() => navigation.navigate("Home")}
-        >
-          <BackArrow color="white" />
-        </Pressable>
-
-        <Text className="text-base text-white font-semibold">Favourite</Text>
-
-        <View className="w-8 h-8" />
-      </View>
+      <Text className="text-base text-white text-center font-semibold">
+        Favourite
+      </Text>
 
       <FlatList
         className="mt-8"
