@@ -95,7 +95,7 @@ const Profile = () => {
 
       <View className="p-4 pr-5 border border-primary-soft rounded-[16px] mt-6 flex-row items-center justify-between gap-4">
         <View className="flex-row gap-4 items-center">
-          <Image source={AvatarImage} className="w-[55px] h-[55px]" />
+          <Image source={AvatarImage} className="w-[47px] h-[47px]" />
 
           <View className="gap-2">
             <Text className="text-white text-base font-semibold">
