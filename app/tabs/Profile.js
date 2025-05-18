@@ -13,6 +13,13 @@ import EditIcon from "../../assets/icons/EditIcon";
 import SettingsButton from "../components/Buttons/SettingsButton";
 import SecondaryButton from "../components/Buttons/SecondaryButton";
 import useAuthStore from "../../store/authStore";
+import LockIcon from "../../assets/icons/LockIcon";
+import NotificationIcon from "../../assets/icons/NotificationIcon";
+import GlobeIcon from "../../assets/icons/GlobeIcon";
+import DeleteIcon from "../../assets/icons/DeleteIcon";
+import ShieldIcon from "../../assets/icons/ShieldIcon";
+import QuestionIcon from "../../assets/icons/QuestionIcon";
+import InfoAlertIcon from "../../assets/icons/InfoAlertIcon";
 
 const sections = [
   {
@@ -27,7 +34,7 @@ const sections = [
       {
         id: 2,
         title: "Change Password",
-        icon: <EditIcon color="grey" />,
+        icon: <LockIcon color="grey" />,
       },
     ],
   },
@@ -38,17 +45,17 @@ const sections = [
       {
         id: 1,
         title: "Notification",
-        icon: <PersonIcon color="grey" />,
+        icon: <NotificationIcon color="grey" />,
       },
       {
         id: 2,
         title: "Language",
-        icon: <PersonIcon color="grey" />,
+        icon: <GlobeIcon color="grey" />,
       },
       {
         id: 3,
         title: "Clear Cache",
-        icon: <PersonIcon color="grey" />,
+        icon: <DeleteIcon color="grey" />,
       },
     ],
   },
@@ -59,17 +66,17 @@ const sections = [
       {
         id: 1,
         title: "Legal and Policies",
-        icon: <PersonIcon color="grey" />,
+        icon: <ShieldIcon color="grey" />,
       },
       {
         id: 2,
         title: "Help & Feedback",
-        icon: <PersonIcon color="grey" />,
+        icon: <QuestionIcon color="grey" />,
       },
       {
         id: 3,
         title: "About Us",
-        icon: <PersonIcon color="grey" />,
+        icon: <InfoAlertIcon color="grey" />,
       },
     ],
   },
