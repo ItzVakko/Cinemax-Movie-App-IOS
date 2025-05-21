@@ -15,19 +15,22 @@ import { useState } from "react";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import useFetch from "../../../hooks/useFetch";
 import { fetchUpdateUserData } from "../../../services/userApi";
+import * as ImagePicker from "expo-image-picker";
 
 const EditProfile = () => {
+  const user = useAuthStore((state) => state.user);
+
+  const [avatar, setAvatar] = useState(user?.avatar);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
 
   const navigation = useNavigation();
 
-  const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.token);
   const updateData = useAuthStore((state) => state.dataUpdate);
 
-  const { setError, finished, fetchData } = useFetch({
+  const { error, setError, finished, fetchData } = useFetch({
     fetchFunction: (userData) => fetchUpdateUserData(userData, token),
     onSuccess: () => updateData(),
   });
@@ -35,23 +38,24 @@ const EditProfile = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!fullName) {
-      newErrors.fullName = "Full name is required.";
-    } else if (fullName.length < 3) {
-      newErrors.fullName = "Full name must be at least 3 characters.";
-    } else if (fullName === user?.fullName) {
-      newErrors.fullName = "Full name must be different.";
+    const fullNameChanged = fullName && fullName !== user?.fullName;
+    const emailChanged =
+      email && email.toLowerCase() !== user?.email?.toLowerCase();
+    const avatarChanged = avatar && avatar !== user?.avatar;
+
+    if (!fullNameChanged && !emailChanged && !avatarChanged) {
+      newErrors.general = "You must change at least one field.";
     }
 
-    const lowEmail = email.toLowerCase();
+    if (fullNameChanged) {
+      if (fullName.length < 3) {
+        newErrors.fullName = "Full name must be at least 3 characters.";
+      }
+    }
 
-    if (!lowEmail) {
-      newErrors.email = "Email is required.";
-    } else if (email === user?.email) {
-      newErrors.email = "Email must be different.";
-    } else {
+    if (emailChanged) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(lowEmail)) {
+      if (!emailRegex.test(email.toLowerCase())) {
         newErrors.email = "A valid email is required.";
       }
     }
@@ -65,9 +69,56 @@ const EditProfile = () => {
     }
   };
 
+  const handlePickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission to access media library is required!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaType,
+      allowsEditing: true,
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const base64Image = result.assets[0].base64;
+
+      try {
+        const cloudinaryData = {
+          file: `data:image/jpeg;base64,${base64Image}`,
+          upload_preset: process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+          cloud_name: process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME,
+        };
+
+        const uploadRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(cloudinaryData),
+          }
+        );
+
+        const data = await uploadRes.json();
+        setAvatar(data.secure_url);
+      } catch (error) {
+        console.error("Upload failed", error);
+      }
+    }
+  };
+
   const handleSubmit = () => {
     if (validateForm()) {
-      fetchData({ fullName, email });
+      fetchData({
+        fullName: fullName || user.fullName,
+        email: email || user.email,
+        avatar: avatar,
+      });
       setFullName("");
       setEmail("");
     }
@@ -99,9 +150,9 @@ const EditProfile = () => {
         <View className="w-8 h-8" />
       </View>
 
-      <TouchableOpacity className="mt-8 mx-auto">
+      <TouchableOpacity className="mt-8 mx-auto" onPress={handlePickImage}>
         <Image
-          source={{ uri: user?.avatar }}
+          source={{ uri: avatar }}
           className="w-[72px] h-[72px] rounded-full"
         />
         <View className="absolute w-10 h-10 bg-primary-soft rounded-full right-[-6px] bottom-[-6px] justify-center items-center">
@@ -145,6 +196,18 @@ const EditProfile = () => {
           {errors.email && (
             <Text className="text-secondary-red text-sm mt-2 mx-2">
               {errors.email}
+            </Text>
+          )}
+
+          {errors.general && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.general}
+            </Text>
+          )}
+
+          {error && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              Such email already exists!
             </Text>
           )}
 
