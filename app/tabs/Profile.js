@@ -8,7 +8,6 @@ import {
   FlatList,
   Alert,
 } from "react-native";
-import AvatarImage from "../../assets/images/avatar.png";
 import PersonIcon from "../../assets/icons/PersonIcon";
 import EditIcon from "../../assets/icons/EditIcon";
 import SettingsButton from "../components/Buttons/SettingsButton";
@@ -98,14 +97,17 @@ const Profile = () => {
 
       <View className="p-4 pr-5 border border-primary-soft rounded-[16px] mt-6 flex-row items-center justify-between gap-4">
         <View className="flex-row gap-4 items-center">
-          <Image source={AvatarImage} className="w-[47px] h-[47px]" />
+          <Image
+            source={{ uri: user?.avatar }}
+            className="w-[47px] h-[47px] rounded-full"
+          />
 
           <View className="gap-2">
             <Text className="text-white text-base font-semibold">
-              Vako Kobulashvili
+              {user?.fullName}
             </Text>
             <Text className="text-[#B1B1B1] text-cm font-medium">
-              itzvakkoofficial@gmail.com
+              {user?.email}
             </Text>
           </View>
         </View>

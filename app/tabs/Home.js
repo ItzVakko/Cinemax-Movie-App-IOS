@@ -1,6 +1,5 @@
 import { Image, ScrollView, Platform, View, Text } from "react-native";
-import React, { useState } from "react";
-import Avatar from "../../assets/images/avatar.png";
+import { useState } from "react";
 import HeartIcon from "../../assets/icons/HeartIcon.js";
 import SearchBar from "../components/SearchBar/SearchBar.js";
 import Categories from "../components/Categories/Categories.js";
@@ -24,7 +23,7 @@ const Home = () => {
     >
       <View className="flex-row justify-between items-center px-4">
         <Image
-          source={{ uri: user.avatar }}
+          source={{ uri: user?.avatar }}
           className="w-10 h-10 rounded-full"
         />
 
