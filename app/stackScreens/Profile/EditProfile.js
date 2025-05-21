@@ -25,6 +25,8 @@ const EditProfile = () => {
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
 
+  const [loadingUpload, setLoadingUpload] = useState(false);
+
   const navigation = useNavigation();
 
   const token = useAuthStore((state) => state.token);
@@ -87,6 +89,8 @@ const EditProfile = () => {
       const base64Image = result.assets[0].base64;
 
       try {
+        setLoadingUpload(true);
+
         const cloudinaryData = {
           file: `data:image/jpeg;base64,${base64Image}`,
           upload_preset: process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
@@ -107,7 +111,11 @@ const EditProfile = () => {
         const data = await uploadRes.json();
         setAvatar(data.secure_url);
       } catch (error) {
+        setLoadingUpload(true);
+
         console.error("Upload failed", error);
+      } finally {
+        setLoadingUpload(false);
       }
     }
   };
@@ -159,6 +167,12 @@ const EditProfile = () => {
           <PencilIcon color="#12CDD9" />
         </View>
       </TouchableOpacity>
+
+      {loadingUpload && (
+        <Text className="text-[#B1B1B1] text-center text-sm font-medium mt-2">
+          Uploading ...
+        </Text>
+      )}
 
       <Text className="text-base text-white text-center font-semibold mt-6">
         {user?.fullName}
