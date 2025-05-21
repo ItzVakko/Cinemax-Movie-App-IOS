@@ -30,7 +30,7 @@ const sections = [
       {
         id: 1,
         title: "Member",
-        icon: <PersonIcon color="#12CDD9" />,
+        icon: <PersonIcon color="grey" />,
       },
       {
         id: 2,

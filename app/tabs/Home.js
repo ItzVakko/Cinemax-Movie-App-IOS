@@ -23,7 +23,10 @@ const Home = () => {
       style={{ paddingTop: Platform.OS === "ios" ? 60 : 0 }}
     >
       <View className="flex-row justify-between items-center px-4">
-        <Image source={Avatar} className="w-10 h-10" />
+        <Image
+          source={{ uri: user.avatar }}
+          className="w-10 h-10 rounded-full"
+        />
 
         <View className="mr-14">
           <Text className="text-4 text-white font-semibold">
