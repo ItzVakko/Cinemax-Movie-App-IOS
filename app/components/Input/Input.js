@@ -14,7 +14,7 @@ const Input = ({
   return (
     <>
       {type === "text" && (
-        <View className="px-4">
+        <View>
           {name && (
             <Text className="text-text-whiteGrey px-3 bg-primary-dark absolute z-10 bottom-[45px] left-6">
               {name}
@@ -32,7 +32,7 @@ const Input = ({
       )}
 
       {type === "password" && (
-        <View className="px-4">
+        <View>
           {name && (
             <Text className="text-text-whiteGrey px-3 bg-primary-dark absolute z-10 bottom-[45px] left-6">
               {name}

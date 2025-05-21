@@ -8,13 +8,13 @@ import Login from "./app/stackScreens/Auth/Login";
 import Register from "./app/stackScreens/Auth/Register";
 import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
+import EditProfile from "./app/stackScreens/Profile/EditProfile";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const loadSavedAuthData = useAuthStore((state) => state.loadStoredAuth);
-  const logout = useAuthStore((state) => state.logout);
 
   useEffect(() => {
     const initAuth = async () => await loadSavedAuthData();
@@ -41,6 +41,7 @@ export default function App() {
             <>
               <Stack.Screen name="MainTabs" component={Tabs} />
               <Stack.Screen name="MovieDetails" component={MovieDetails} />
+              <Stack.Screen name="EditProfile" component={EditProfile} />
             </>
           )}
         </Stack.Navigator>

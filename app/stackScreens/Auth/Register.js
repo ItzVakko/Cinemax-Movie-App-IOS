@@ -109,7 +109,7 @@ const Register = () => {
       </Text>
 
       <View>
-        <View className="mt-16 gap-8">
+        <View className="mt-16 gap-8 px-4">
           <View>
             <Input
               type="text"

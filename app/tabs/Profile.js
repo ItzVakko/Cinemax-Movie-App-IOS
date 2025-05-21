@@ -20,6 +20,7 @@ import DeleteIcon from "../../assets/icons/DeleteIcon";
 import ShieldIcon from "../../assets/icons/ShieldIcon";
 import QuestionIcon from "../../assets/icons/QuestionIcon";
 import InfoAlertIcon from "../../assets/icons/InfoAlertIcon";
+import { useNavigation } from "@react-navigation/native";
 
 const sections = [
   {
@@ -28,7 +29,7 @@ const sections = [
     buttons: [
       {
         id: 1,
-        title: "Member",
+        title: "Edit Profile",
         icon: <PersonIcon color="grey" />,
       },
       {
@@ -86,6 +87,8 @@ const Profile = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
+  const navigation = useNavigation();
+
   return (
     <ScrollView
       className="flex-1 bg-primary-dark px-4"
@@ -112,7 +115,7 @@ const Profile = () => {
           </View>
         </View>
 
-        <Pressable>
+        <Pressable onPress={() => navigation.navigate("EditProfile")}>
           <EditIcon color="#12CDD9" />
         </Pressable>
       </View>
