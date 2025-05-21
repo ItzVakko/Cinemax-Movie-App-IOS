@@ -20,3 +20,22 @@ export const fetchUserData = async (token) => {
 
   return data;
 };
+
+export const fetchUpdateUserData = async (userData, token) => {
+  const endpoint = "/me";
+
+  const response = await fetch(`${USER_CONFIG.BASE_URL}${endpoint}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) throw new Error("Failed to update user data!");
+
+  const data = await response.json();
+
+  return data;
+};

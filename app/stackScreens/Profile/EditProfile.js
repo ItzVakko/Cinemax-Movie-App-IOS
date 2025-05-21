@@ -13,6 +13,8 @@ import PencilIcon from "../../../assets/icons/PencilIcon";
 import Input from "../../components/Input/Input";
 import { useState } from "react";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
+import useFetch from "../../../hooks/useFetch";
+import { fetchUpdateUserData } from "../../../services/userApi";
 
 const EditProfile = () => {
   const [fullName, setFullName] = useState("");
@@ -22,6 +24,13 @@ const EditProfile = () => {
   const navigation = useNavigation();
 
   const user = useAuthStore((state) => state.user);
+  const token = useAuthStore((state) => state.token);
+  const updateData = useAuthStore((state) => state.dataUpdate);
+
+  const { setError, finished, fetchData } = useFetch({
+    fetchFunction: (userData) => fetchUpdateUserData(userData, token),
+    onSuccess: () => updateData(),
+  });
 
   const validateForm = () => {
     const newErrors = {};
@@ -58,7 +67,7 @@ const EditProfile = () => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      //   fetchData({ fullName, email, password });
+      fetchData({ fullName, email });
       setFullName("");
       setEmail("");
     }
@@ -117,6 +126,11 @@ const EditProfile = () => {
             setValue={setFullName}
             onFocus={() => handleFocus("fullName")}
           />
+          {errors.fullName && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.fullName}
+            </Text>
+          )}
         </View>
 
         <View>
@@ -128,6 +142,17 @@ const EditProfile = () => {
             setValue={setEmail}
             onFocus={() => handleFocus("email")}
           />
+          {errors.email && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.email}
+            </Text>
+          )}
+
+          {finished && (
+            <Text className="text-secondary-green text-sm mt-2 mx-2">
+              User updated successfully!
+            </Text>
+          )}
         </View>
       </View>
 

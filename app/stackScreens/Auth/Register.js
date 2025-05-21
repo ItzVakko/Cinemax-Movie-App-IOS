@@ -120,7 +120,7 @@ const Register = () => {
               onFocus={() => handleFocus("fullName")}
             />
             {errors.fullName && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 {errors.fullName}
               </Text>
             )}
@@ -136,7 +136,7 @@ const Register = () => {
               onFocus={() => handleFocus("email")}
             />
             {errors.email && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 {errors.email}
               </Text>
             )}
@@ -152,19 +152,19 @@ const Register = () => {
               onFocus={() => handleFocus("password")}
             />
             {errors.password && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 {errors.password}
               </Text>
             )}
 
             {error && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 Account with the same email already exists.
               </Text>
             )}
 
             {finished && (
-              <Text className="text-secondary-green text-sm mt-2 mx-6">
+              <Text className="text-secondary-green text-sm mt-2 mx-2">
                 Signed Up successfully!
               </Text>
             )}

@@ -31,6 +31,7 @@ const sections = [
         id: 1,
         title: "Edit Profile",
         icon: <PersonIcon color="grey" />,
+        navigate: "EditProfile",
       },
       {
         id: 2,

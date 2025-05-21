@@ -112,7 +112,7 @@ const Login = () => {
             />
 
             {errors.email && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 {errors.email}
               </Text>
             )}
@@ -129,19 +129,19 @@ const Login = () => {
             />
 
             {errors.password && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 {errors.password}
               </Text>
             )}
 
             {error && (
-              <Text className="text-secondary-red text-sm mt-2 mx-6">
+              <Text className="text-secondary-red text-sm mt-2 mx-2">
                 Please insert correct email and password.
               </Text>
             )}
 
             {finished && (
-              <Text className="text-secondary-green text-sm mt-2 mx-6">
+              <Text className="text-secondary-green text-sm mt-2 mx-2">
                 Logged in successfully!
               </Text>
             )}
