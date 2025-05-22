@@ -27,6 +27,15 @@ const ChangePassword = () => {
   const validateForm = () => {
     const newErrors = {};
 
+    if (
+      currentPassword &&
+      newPassword &&
+      confirmNewPassword &&
+      currentPassword === newPassword
+    ) {
+      newErrors.general = "New password must not match the old one!";
+    }
+
     if (!currentPassword) {
       newErrors.currentPassword = "Current password is required.";
     }
@@ -141,6 +150,12 @@ const ChangePassword = () => {
           {errors.confirmNewPassword && (
             <Text className="text-secondary-red text-sm mt-2 mx-2">
               {errors.confirmNewPassword}
+            </Text>
+          )}
+
+          {errors.general && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.general}
             </Text>
           )}
 
