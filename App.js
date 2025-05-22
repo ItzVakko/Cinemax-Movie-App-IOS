@@ -9,6 +9,7 @@ import Register from "./app/stackScreens/Auth/Register";
 import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
 import EditProfile from "./app/stackScreens/Profile/EditProfile";
+import ChangePassword from "./app/stackScreens/Profile/ChangePassword";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default function App() {
               <Stack.Screen name="MainTabs" component={Tabs} />
               <Stack.Screen name="MovieDetails" component={MovieDetails} />
               <Stack.Screen name="EditProfile" component={EditProfile} />
+              <Stack.Screen name="ChangePassword" component={ChangePassword} />
             </>
           )}
         </Stack.Navigator>

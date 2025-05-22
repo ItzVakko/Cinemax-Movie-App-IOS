@@ -37,6 +37,7 @@ const sections = [
         id: 2,
         title: "Change Password",
         icon: <LockIcon color="grey" />,
+        navigate: "ChangePassword",
       },
     ],
   },
