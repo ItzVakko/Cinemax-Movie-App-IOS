@@ -4,13 +4,80 @@ import BackArrow from "../../../assets/icons/BackArrow";
 import Input from "../../components/Input/Input";
 import { useState } from "react";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
+import useAuthStore from "../../../store/authStore";
+import useFetch from "../../../hooks/useFetch";
+import { fetchUpdateUserData } from "../../../services/userApi";
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigation = useNavigation();
+
+  const token = useAuthStore((state) => state.token);
+  const logout = useAuthStore((state) => state.logout);
+
+  const { error, setError, finished, fetchData } = useFetch({
+    fetchFunction: (userData) => fetchUpdateUserData(userData, token),
+    onSuccess: () => logout(),
+  });
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!currentPassword) {
+      newErrors.currentPassword = "Current password is required.";
+    }
+
+    if (!newPassword) {
+      newErrors.newPassword = "New password is required.";
+    } else {
+      if (newPassword.length < 6) {
+        newErrors.newPassword = "Password must be at least 6 characters.";
+      } else if (newPassword.length > 12) {
+        newErrors.newPassword = "Password must be up to 12 characters.";
+      }
+    }
+
+    if (!confirmNewPassword) {
+      newErrors.confirmNewPassword = "New password is required.";
+    } else if (confirmNewPassword !== newPassword) {
+      newErrors.confirmNewPassword = "Passwords do not match.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return false;
+    } else {
+      setErrors({});
+      return true;
+    }
+  };
+
+  const handleSubmit = () => {
+    if (validateForm()) {
+      fetchData({
+        currentPassword,
+        newPassword,
+        confirmNewPassword,
+      });
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+    }
+  };
+
+  const handleFocus = (type) => {
+    setError(null);
+    setErrors((prev) => {
+      const updated = { ...prev };
+      delete updated[type];
+      return updated;
+    });
+  };
+
   return (
     <View
       className="flex-1 bg-primary-dark px-4"
@@ -41,8 +108,10 @@ const ChangePassword = () => {
             setValue={setCurrentPassword}
             onFocus={() => handleFocus("currentPassword")}
           />
-          {currentPassword && (
-            <Text className="text-secondary-red text-sm mt-2 mx-2"></Text>
+          {errors.currentPassword && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.currentPassword}
+            </Text>
           )}
         </View>
         <View>
@@ -54,8 +123,10 @@ const ChangePassword = () => {
             setValue={setNewPassword}
             onFocus={() => handleFocus("newPassword")}
           />
-          {newPassword && (
-            <Text className="text-secondary-red text-sm mt-2 mx-2"></Text>
+          {errors.newPassword && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.newPassword}
+            </Text>
           )}
         </View>
         <View>
@@ -67,14 +138,28 @@ const ChangePassword = () => {
             setValue={setConfirmNewPassword}
             onFocus={() => handleFocus("confirmNewPassword")}
           />
-          {confirmNewPassword && (
-            <Text className="text-secondary-red text-sm mt-2 mx-2"></Text>
+          {errors.confirmNewPassword && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              {errors.confirmNewPassword}
+            </Text>
+          )}
+
+          {error && (
+            <Text className="text-secondary-red text-sm mt-2 mx-2">
+              Current password is incorrect!
+            </Text>
+          )}
+
+          {finished && (
+            <Text className="text-secondary-green text-sm mt-2 mx-2">
+              Password changed successfully!
+            </Text>
           )}
         </View>
       </View>
 
       <View className="mt-10">
-        <PrimaryButton title="Change Password" />
+        <PrimaryButton title="Change Password" onPress={handleSubmit} />
       </View>
     </View>
   );
