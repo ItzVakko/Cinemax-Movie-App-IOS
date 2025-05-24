@@ -49,6 +49,14 @@ const EditProfile = () => {
       newErrors.general = "You must change at least one field.";
     }
 
+    if (fullName === user?.fullName) {
+      newErrors.fullName = "New full name must not match the old one.";
+    }
+
+    if (email === user?.email) {
+      newErrors.email = "New email must not match the old one.";
+    }
+
     if (fullNameChanged) {
       if (fullName.length < 3) {
         newErrors.fullName = "Full name must be at least 3 characters.";
@@ -122,13 +130,16 @@ const EditProfile = () => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      fetchData({
-        fullName: fullName || user.fullName,
-        email: email || user.email,
-        avatar: avatar,
-      });
-      setFullName("");
+      const payload = {};
+      if (fullName && fullName !== user.fullName) payload.fullName = fullName;
+      if (email && email.toLowerCase() !== user.email.toLowerCase())
+        payload.email = email.toLowerCase();
+      if (avatar && avatar !== user.avatar) payload.avatar = avatar;
+
+      fetchData(payload);
+
       setEmail("");
+      setFullName("");
     }
   };
 
