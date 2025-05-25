@@ -70,6 +70,7 @@ const sections = [
         id: 1,
         title: "Legal and Policies",
         icon: <ShieldIcon color="grey" />,
+        navigate: "PrivacyPolicy",
       },
       {
         id: 2,
