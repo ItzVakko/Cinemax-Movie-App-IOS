@@ -81,6 +81,7 @@ const sections = [
         id: 3,
         title: "About Us",
         icon: <InfoAlertIcon color="grey" />,
+        navigate: "AboutUs",
       },
     ],
   },

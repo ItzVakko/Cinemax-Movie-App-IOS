@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import EditProfile from "./app/stackScreens/Profile/EditProfile";
 import ChangePassword from "./app/stackScreens/Profile/ChangePassword";
 import PrivacyPolicy from "./app/stackScreens/Profile/PrivacyPolicy";
+import AboutUs from "./app/stackScreens/Profile/AboutUs";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function App() {
               <Stack.Screen name="EditProfile" component={EditProfile} />
               <Stack.Screen name="ChangePassword" component={ChangePassword} />
               <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+              <Stack.Screen name="AboutUs" component={AboutUs} />
             </>
           )}
         </Stack.Navigator>
