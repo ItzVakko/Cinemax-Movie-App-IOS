@@ -156,7 +156,7 @@ const EditProfile = () => {
       className="flex-1 bg-primary-dark px-4"
       style={{ paddingTop: Platform.OS === "ios" ? 60 : 0 }}
     >
-      <View className="px-4 flex-row justify-between items-center">
+      <View className="flex-row justify-between items-center">
         <Pressable
           className="bg-primary-soft w-8 h-8 rounded-xl justify-center items-center"
           onPress={() => navigation.goBack()}

@@ -115,7 +115,7 @@ const MovieDetails = ({ route }) => {
             <BackArrow color="white" />
           </Pressable>
 
-          <Text className="text-xl text-white font-semibold">
+          <Text className="text-base text-white font-semibold">
             {movie?.title}
           </Text>
 
